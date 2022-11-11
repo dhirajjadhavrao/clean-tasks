@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="LOG_HOME" value="D:/DemoProject/" />
+    <property name="LOG_HOME" value="./logs" />
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <Pattern>%date %level [%thread] %logger %msg%n</Pattern>
@@ -9,14 +9,17 @@
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_HOME}/logger.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <minIndex>1</minIndex>
+            <maxIndex>3</maxIndex>
+            <totalSizeCap>1MB</totalSizeCap>
             <FileNamePattern>
                 ${LOG_HOME}/apitracker-%d.%i.log.gz
             </FileNamePattern>
-            <TimeBasedFileNamingAndTriggeringPolicy
+            <triggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <MaxFileSize>10MB</MaxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
+                <MaxFileSize>5KB</MaxFileSize>
+            </triggeringPolicy >
         </rollingPolicy>
         <encoder>
             <Pattern>%date %level [%thread] %logger %msg%n</Pattern>
@@ -24,7 +27,7 @@
     </appender>
 
     <!-- By default, the level of the root level is set to DEBUG -->
-    <root level="DEBUG">
+    <root level="ALL">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
